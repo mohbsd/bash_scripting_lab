@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ $FRUIT_BASKET = $FRUIT_BASKET ] ; then
+    echo "$FRUIT_BASKET"	
+else	
+    echo "your fruit basket is empty" ;
+fi
