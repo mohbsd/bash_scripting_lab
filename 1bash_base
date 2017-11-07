@@ -1,0 +1,144 @@
+<< How to Write a Basic Shell Script >>
+
+<Table of Contents>
+1 .Introduction
+2. Requirements
+3. Create the File
+4. Add the Command(s) and Make it Executable
+5. Run the Script
+6. Add the Script to your PATH
+7. Use Input and Variables
+
+
+1 .Introduction
+Learn how to write a basic Bash shell script. Although shell scripts can be long, complicated scripts which perform complex tasks, you can also learn how to write a simple shell script in 10 minutes. If you can run commands at the command line, learning how to write a basic Bash script is easy.
+
+2. Requirements
+A 1&1 Cloud Server running Linux
+A basic familiarity with the command line
+
+3. Create the File
+Go to your home directory:
+
+cd
+Note: Using cd without any arguments will automatically take you to your home directory.
+
+Create a directory for test scripts:
+
+mkdir myscripts
+Move into this directory:
+
+cd myscripts
+Create a file named myscript.sh and open it for editing:
+
+nano hello
+The first line of any shell script must be #! followed by the path to the shell that you want to use for the script.
+
+Since we will be writing this script for the Bash shell, the first line of the file will be:
+
+#!/bin/bash
+Any other line which begins with a hash mark # will be ignored by the script. This allows you to add comments and notes to your script. After the first line, it is a good practice to add a few comments about the script's purpose:
+
+# A test script
+
+
+4. Add the Command(s) and Make it Executable
+Any command which you run from the command line, you can put into a shell script. This is convenient for:
+
+Commands you use frequently.
+Lengthy commands, especially those which use lots of flags.
+Commands which you want the server to run automatically as a cron job.
+Commands you can never quite remember, and have to look up each time.
+For this example, we will use a command that will echo the words "Hello world" to the command line. Put the following into the file:
+
+echo "Hello world"
+Save and exit the file.
+
+The script needs to be executable in order to run. Give the script executable permissions with the command:
+
+chmod 755 hello
+
+5. Run the Script
+To run the script, simply invoke it by its file path. Since you are in the same directory as the script, you can run it from here by typing:
+
+./hello
+You can run the script from anywhere on the server by typing the full file path:
+
+/home/[your username]/myscripts/hello
+
+
+6. Add the Script to your PATH :
+
+Unlike your shell script, most Linux commands do not require you to type out the full file path each time you want to run them. This is because those scripts are in your PATH.
+
+The PATH is the list of directories that the shell checks for a command each time you type it. You can see your PATH by using the command:
+
+echo $PATH
+This will output the list of directories which are in your PATH:
+
+jdoe@localhost:~$ echo $PATH
+/home/jdoe/bin:/home/jdoe/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+There are two ways to add your shell script to your PATH:
+
+1. Move the shell script to a directory that is already in your PATH
+
+You can move the shell script into any of the directories which are listed in response to the echo $PATH command. The best practice is to put your personal shell scripts into the /usr/local/bin directory:
+
+sudo mv hello /usr/local/bin
+You can then run the script from anywhere with the command:
+
+hello
+2. Add the shell script's directory to your PATH
+
+You can add any directory to your PATH with the command:
+
+export PATH=$PATH:[path to directory]
+For example, if user jdoe wants to add /home/jdoe/myscripts to the PATH, the command is:
+
+export PATH=$PATH:/home/jdoe/myscripts
+You can then run the script from anywhere with the command:
+
+hello
+
+
+7. Use Input and Variables
+
+Your scripts can use variables, and you can prompt the user for input. This creates an interactive script which allows you to give it new information each time it is run.
+
+Let's start by creating a new file with the name greetme and opening it for editing:
+
+nano greetme
+As before, make sure that the first line of the script is the path to the shell:
+
+#!/bin/bash
+Add a comment:
+
+# A simple script to experiment with user input
+The first line of the script will be what the script says when you invoke it:
+
+echo -e "Hello user, please tell me which state you live in: "
+Note: We use echo -e for this, because -e allows the command to handle special characters.
+
+The next line tells the script to accept your input at a prompt:
+
+read state
+The final line is the script's response:
+
+echo "I have heard that $state is lovely this time of year."
+The entire script reads as follows:
+
+#!/bin/bash
+# A simple script to experiment with user input
+
+echo -e "Hello user, please tell me which state you live in: "
+read state
+echo "I have heard that $state is lovely this time of year."
+Save and exit the file. Then make it executable with the command:
+
+chmod 755 greetme
+You can now run the file and see the results:
+
+jdoe@localhost:~/myscripts$ greetme
+Hello user, please tell me which state you live in:
+California
+I have heard that California is lovely this time of year.
